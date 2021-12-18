@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.pnevalle.itunessearch.databinding.FragmentSearchListBinding
@@ -48,7 +49,11 @@ class SearchListFragment : Fragment() {
         viewModel.searchResultList.observe(viewLifecycleOwner) { searchResults ->
             binding.swipeRefreshLayout.isRefreshing = false
             binding.recyclerView.adapter = SearchAdapter(searchResults,
-                viewModel.lastNetworkCall.value ?: System.currentTimeMillis())
+                viewModel.lastNetworkCall.value ?: System.currentTimeMillis()) {
+                val direction =
+                    SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(it.trackId)
+                findNavController().navigate(direction)
+            }
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorEvent ->

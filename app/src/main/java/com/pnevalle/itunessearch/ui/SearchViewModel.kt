@@ -43,4 +43,16 @@ class SearchViewModel @Inject constructor(private val searchInteractors: SearchI
             }
         }
     }
+
+    /**
+     * Get the search result by [SearchResult.trackId]
+     *
+     * @return the [SearchResult], `null` if no match was found
+     */
+    fun getSearchResult(id: Long): SearchResult? {
+        searchResultList.value?.let { list ->
+            return list.find { it.trackId == id }
+        }
+        return null
+    }
 }

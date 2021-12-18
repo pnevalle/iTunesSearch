@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="trackName"
+            type="String" />
+
+        <variable
+            name="genre"
+            type="String" />
+
+        <variable
+            name="price"
+            type="String" />
+
+        <variable
+            name="url"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/ivSearchImage"
+                android:layout_width="120dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="2:3"
+                android:contentDescription="@{@string/content_description_search_image(trackName)}"
+                app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:url="@{url}" />
+
+            <TextView
+                android:id="@+id/tvTrackName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@{trackName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:layout_constraintBottom_toTopOf="@+id/tvGenre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ivSearchImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{genre}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvTrackName"
+                app:layout_constraintTop_toBottomOf="@+id/tvTrackName"
+                app:layout_constraintBottom_toTopOf="@+id/tvPrice"/>
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{price}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/ivSearchImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvTrackName"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenre" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{description}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="2dp"
+                android:lineSpacingMultiplier="1.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivSearchImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

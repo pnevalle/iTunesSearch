@@ -8,6 +8,20 @@
     <fragment
         android:id="@+id/searchListFragment"
         android:name="com.pnevalle.itunessearch.ui.SearchListFragment"
-        android:label="SearchListFragment"
-        tools:layout="@layout/fragment_search_list" />
+        android:label="List"
+        tools:layout="@layout/fragment_search_list" >
+        <action
+            android:id="@+id/action_searchListFragment_to_searchDetailFragment"
+            app:destination="@id/searchDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchDetailFragment"
+        android:name="com.pnevalle.itunessearch.ui.SearchDetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_search_detail" >
+        <argument
+            android:name="trackId"
+            app:argType="long" />
+    </fragment>
 </navigation>

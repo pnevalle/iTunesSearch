@@ -13,6 +13,7 @@ import com.pnevalle.itunessearch.databinding.ItemSearchHeadingBinding
 class SearchAdapter(
     private val searchResultList: List<SearchResult>,
     private val lastNetworkCall: Long,
+    private val clickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -28,6 +29,9 @@ class SearchAdapter(
         } else {
             val binding = ItemSearchBinding.inflate(inflater, parent, false)
             val viewHolder = SearchItemViewHolder(binding)
+
+            binding.viewHolder = viewHolder
+            binding.adapter = this
 
             viewHolder
         }
@@ -53,5 +57,9 @@ class SearchAdapter(
         } else {
             ITEM_TYPE
         }
+    }
+
+    fun onItemClick(position: Int) {
+        clickListener(searchResultList[position-1])
     }
 }
