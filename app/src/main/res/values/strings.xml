@@ -2,4 +2,5 @@
     <string name="app_name">iTunesSearch</string>
 
     <string name="content_description_search_image">%s image</string>
+    <string name="search_heading_text">Last updated: %s</string>
 </resources>

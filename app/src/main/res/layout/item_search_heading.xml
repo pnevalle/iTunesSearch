@@ -15,5 +15,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="@{heading}" />
+        android:text="@{@string/search_heading_text(heading)}"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 </layout>

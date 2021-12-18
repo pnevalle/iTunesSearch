@@ -16,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class SearchListFragment : Fragment() {
-
     private var _binding: FragmentSearchListBinding? = null
     private val binding get() = _binding!!
 
@@ -30,6 +29,7 @@ class SearchListFragment : Fragment() {
         _binding = FragmentSearchListBinding.inflate(inflater, container, false)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -46,11 +46,13 @@ class SearchListFragment : Fragment() {
      */
     private fun initLiveDataObserver() {
         viewModel.searchResultList.observe(viewLifecycleOwner) { searchResults ->
+            binding.swipeRefreshLayout.isRefreshing = false
             binding.recyclerView.adapter = SearchAdapter(searchResults,
                 viewModel.lastNetworkCall.value ?: System.currentTimeMillis())
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorEvent ->
+            binding.swipeRefreshLayout.isRefreshing = false
             errorEvent.getContentIfNotHandled()?.let { errorMessage ->
                 showSnack(errorMessage)
             }
