@@ -70,4 +70,8 @@ dependencies {
     def navigationVersion = '2.3.5'
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    def lifecycleKtx = '2.4.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleKtx"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleKtx"
 }

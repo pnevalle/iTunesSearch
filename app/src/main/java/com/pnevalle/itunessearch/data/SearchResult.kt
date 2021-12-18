@@ -19,4 +19,5 @@ data class SearchResult(
     val longDescription: String,
     val primaryGenreName: String,
     val trackPrice: Double,
+    val currency: String
 )

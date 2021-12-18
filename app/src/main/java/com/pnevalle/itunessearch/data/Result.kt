@@ -23,6 +23,6 @@ sealed class Result<out T> {
      */
     data class Error(
         val code: Int? = null,
-        val errorMessage: String? = GENERIC_ERROR,
+        val errorMessage: String = GENERIC_ERROR,
     ) : Result<Nothing>()
 }
