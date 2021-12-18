@@ -48,12 +48,16 @@ class SearchListFragment : Fragment() {
     private fun initLiveDataObserver() {
         viewModel.searchResultList.observe(viewLifecycleOwner) { searchResults ->
             binding.swipeRefreshLayout.isRefreshing = false
-            binding.recyclerView.adapter = SearchAdapter(searchResults,
-                viewModel.lastNetworkCall.value ?: System.currentTimeMillis()) {
-                val direction =
-                    SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(it.trackId)
-                findNavController().navigate(direction)
+            if (binding.recyclerView.adapter == null) {
+                binding.recyclerView.adapter =
+                    SearchAdapter(viewModel.lastNetworkCall.value ?: System.currentTimeMillis()) {
+                        val direction =
+                            SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(
+                                it.trackId)
+                        findNavController().navigate(direction)
+                    }
             }
+            (binding.recyclerView.adapter as SearchAdapter).setDataList(searchResults)
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorEvent ->

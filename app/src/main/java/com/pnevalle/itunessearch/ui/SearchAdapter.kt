@@ -9,12 +9,16 @@ import com.pnevalle.itunessearch.databinding.ItemSearchHeadingBinding
 
 /**
  * The adapter class for [SearchListFragment]
+ *
+ * @param lastNetworkCall the last network call in millis
+ * @param clickListener the item click listener
  */
 class SearchAdapter(
-    private val searchResultList: List<SearchResult>,
     private val lastNetworkCall: Long,
     private val clickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var searchResultList: List<SearchResult> = listOf()
 
     companion object {
         const val HEADER_TYPE = 100
@@ -61,5 +65,14 @@ class SearchAdapter(
 
     fun onItemClick(position: Int) {
         clickListener(searchResultList[position-1])
+    }
+
+    /**
+     * Set the data list of the adapter
+     *
+     * @param searchResultList the list of [SearchResult]
+     */
+    fun setDataList(searchResultList: List<SearchResult>) {
+        this.searchResultList = searchResultList.toList()
     }
 }
