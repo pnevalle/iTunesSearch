@@ -59,4 +59,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
 
+    def dataStoreVersion = '1.0.0'
+    implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
 }

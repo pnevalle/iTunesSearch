@@ -9,5 +9,6 @@ import javax.inject.Inject
  * @param searchAppleStoreUseCase the search use case
  */
 class SearchInteractors @Inject constructor(
-    val searchAppleStoreUseCase: SearchAppleStoreUseCase
+    val searchAppleStoreUseCase: SearchAppleStoreUseCase,
+    val getLastNetworkCallUseCase: GetLastNetworkCallUseCase
 )

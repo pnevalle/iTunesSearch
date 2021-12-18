@@ -16,4 +16,9 @@ interface SearchDataSource {
      * @return the flow data stream of [Result] with [SearchResponse] as its value
      */
     fun search(term: String, countryCode: String, media: String): Flow<Result<SearchResponse>>
+
+    /**
+     * Method to implement for retrieving the last search time stamp
+     */
+    fun getLastSearchTimeStamp(): Flow<Long>
 }

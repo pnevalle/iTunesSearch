@@ -10,8 +10,12 @@ import javax.inject.Inject
  * Repository class for network call, responsible for executing the search API of iTunes
  *
  * @param service the search service class dependency
+ * @param lastNetworkCallDataStore the data store dependency for saving the time stamp of the last network call
  */
-class SearchRepository @Inject constructor(private val service: SearchService) {
+class SearchRepository @Inject constructor(
+    private val service: SearchService,
+    private val lastNetworkCallDataStore: LastNetworkCallDataStore,
+) {
     /**
      * Method implementation for invoking the iTunes Search API
      *
@@ -23,9 +27,14 @@ class SearchRepository @Inject constructor(private val service: SearchService) {
      */
     fun search(term: String, countryCode: String, media: String): Flow<Result<SearchResponse>> {
         return flow {
-            emit(safeApiCall {
+            val result = safeApiCall {
                 service.searchAppleStore(term, countryCode, media)
-            })
+            }
+
+            if (result is Result.Success) {
+                lastNetworkCallDataStore.saveLastNetworkCall(System.currentTimeMillis())
+            }
+            emit(result)
         }
     }
 }
