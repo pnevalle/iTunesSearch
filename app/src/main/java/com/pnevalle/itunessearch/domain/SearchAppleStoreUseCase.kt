@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * The search apple store use case, which will execute the API call
  *
- * @param searchDataSource the data source implementation
+ * @param searchDataSource the [SearchDataSource] dependency
  */
 class SearchAppleStoreUseCase @Inject constructor(private val searchDataSource: SearchDataSource) {
 
