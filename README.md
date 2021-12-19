@@ -6,12 +6,11 @@ For this project, this [endpoint](https://itunes.apple.com/search?term=star&amp;
 Here are the features of the app:
 1. Display the list of results from the API
 2. Save the API search results into the database. This is used since the endpoint is static and to serve as cache and to also feature offline mode.
-3. A header in the list for the last update from the API was shown.
-4. The database will always be the source of the data. For the first run, it will fetch from the API.
-5. To update or refresh the database, pull to refresh the list to invoke an API call.
-6. The last network call or update is displayed in the header of the list. This is also to showcase the implementation of persistence.
-7. Clicking the list will display a detail screen.
-8. Shared element transition between the list and detail was implemented.
+3. The database will always be the source of the data. For the first run, it will fetch from the API.
+4. To update or refresh the database, pull to refresh the list to invoke an API call.
+5. The last network call or update is displayed in the header of the list. This is also to showcase the implementation of persistence.
+6. Clicking the list will display a detail screen.
+7. Shared element transition between the list and detail was implemented.
 
 This project was designed using clean architecture and MVVM pattern. The main advantage of this is it promotes separation of concerns and will be easier
 for testing and maintenance. The disadvantage of this is more code and classes will be needed and will take some time to get used to.
