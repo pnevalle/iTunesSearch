@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
+import com.pnevalle.itunessearch.R
+import com.pnevalle.itunessearch.common.getPriceDisplay
 import com.pnevalle.itunessearch.databinding.FragmentSearchDetailBinding
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.lang.Exception
 
 /**
  * The detail screen for [SearchListFragment]
@@ -22,6 +27,12 @@ class SearchDetailFragment : Fragment() {
 
     private val viewModel: SearchViewModel by activityViewModels()
     private val args: SearchDetailFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+        sharedElementEnterTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,13 +51,30 @@ class SearchDetailFragment : Fragment() {
 
         searchResult?.let { result ->
             binding.apply {
+                trackId = result.trackId
                 trackName = result.trackName
                 genre = result.primaryGenreName
-                price = "${Currency.getInstance(result.currency).symbol} ${result.trackPrice}"
-                url = result.imageUrl
+                price = getPriceDisplay(searchResult.currency, searchResult.trackPrice)
                 description = result.longDescription
+                url = result.imageUrl
 
                 executePendingBindings()
+
+                Picasso.get()
+                    .load(url)
+                    .noFade()
+                    .placeholder(R.drawable.bg_image_placeholder)
+                    .error(R.drawable.bg_image_placeholder)
+                    .into(ivSearchImage, object: Callback {
+                        override fun onSuccess() {
+                            startPostponedEnterTransition()
+                        }
+
+                        override fun onError(e: Exception?) {
+                            startPostponedEnterTransition()
+
+                        }
+                    })
             }
         }
     }

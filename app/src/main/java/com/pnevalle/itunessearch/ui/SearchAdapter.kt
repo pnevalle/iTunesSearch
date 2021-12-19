@@ -3,6 +3,8 @@ package com.pnevalle.itunessearch.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pnevalle.itunessearch.data.SearchResult
 import com.pnevalle.itunessearch.databinding.ItemSearchBinding
@@ -14,7 +16,7 @@ import com.pnevalle.itunessearch.databinding.ItemSearchHeadingBinding
  * @param clickListener the item click listener
  */
 class SearchAdapter(
-    private val clickListener: (SearchResult) -> Unit
+    private val clickListener: (SearchResult, ImageView, TextView, TextView, TextView) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var searchResultList: List<SearchResult> = listOf()
@@ -34,8 +36,14 @@ class SearchAdapter(
             val binding = ItemSearchBinding.inflate(inflater, parent, false)
             val viewHolder = SearchItemViewHolder(binding)
 
-            binding.viewHolder = viewHolder
-            binding.adapter = this
+            binding.root.setOnClickListener {
+                val searchResult = searchResultList[viewHolder.adapterPosition-1]
+                clickListener(searchResult,
+                    binding.ivSearchImage,
+                    binding.tvTrackName,
+                    binding.tvGenre,
+                    binding.tvPrice)
+            }
 
             viewHolder
         }
@@ -61,10 +69,6 @@ class SearchAdapter(
         } else {
             ITEM_TYPE
         }
-    }
-
-    fun onItemClick(position: Int) {
-        clickListener(searchResultList[position-1])
     }
 
     /**

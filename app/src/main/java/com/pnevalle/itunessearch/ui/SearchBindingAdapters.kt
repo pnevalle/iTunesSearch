@@ -1,6 +1,7 @@
 package com.pnevalle.itunessearch.ui
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pnevalle.itunessearch.R
@@ -33,3 +34,20 @@ fun bindImageUrl(imageView: ImageView, url: String) {
         .error(R.drawable.bg_image_placeholder)
         .into(imageView)
 }
+
+/**
+ * Bind the transition name of the textview
+ */
+@BindingAdapter("tv_transition_name")
+fun bindTextViewTransitionName(textView: TextView, transitionName: String) {
+    textView.transitionName = transitionName
+}
+
+/**
+ * Bind the transition name of the image view
+ */
+@BindingAdapter("iv_transition_name")
+fun bindTextViewTransitionName(imageView: ImageView, transitionName: String) {
+    imageView.transitionName = transitionName
+}
+

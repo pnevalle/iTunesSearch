@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -29,9 +31,7 @@ class SearchListFragment : Fragment() {
     ): View {
         _binding = FragmentSearchListBinding.inflate(inflater, container, false)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        initViews()
 
         return binding.root
     }
@@ -41,6 +41,22 @@ class SearchListFragment : Fragment() {
         initLiveDataObserver()
 
         viewModel.checkCacheOrSearch()
+    }
+
+    private fun initViews() {
+        binding.apply {
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            viewModel = viewModel
+            lifecycleOwner = this@SearchListFragment
+            recyclerView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    startPostponedEnterTransition()
+                    binding.recyclerView.viewTreeObserver.removeOnPreDrawListener(this)
+                    return true
+                }
+            })
+        }
+        postponeEnterTransition()
     }
 
     /**
@@ -64,12 +80,19 @@ class SearchListFragment : Fragment() {
 
     private fun getAdapter(): SearchAdapter {
         return if (binding.recyclerView.adapter == null) {
-            val adapter = SearchAdapter {
-                val direction =
-                    SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(
-                        it.trackId)
-                findNavController().navigate(direction)
-            }
+            val adapter =
+                SearchAdapter { searchResult, imageView, tvTrackName, tvTrackGenre, tvPrice ->
+                    val direction =
+                        SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(
+                            searchResult.trackId)
+                    val extras = FragmentNavigatorExtras(
+                        imageView to searchResult.imageUrl,
+                        tvTrackName to searchResult.trackName,
+                        tvTrackGenre to "${searchResult.trackId} genre",
+                        tvPrice to "${searchResult.trackId} price",
+                    )
+                    findNavController().navigate(direction, extras)
+                }
             binding.recyclerView.adapter = adapter
             adapter
         } else {

@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="trackId"
+            type="Long" />
+
+        <variable
             name="trackName"
             type="String" />
 
@@ -40,14 +44,14 @@
                 android:id="@+id/ivSearchImage"
                 android:layout_width="120dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="2:3"
                 android:contentDescription="@{@string/content_description_search_image(trackName)}"
+                app:iv_transition_name="@{url}"
                 app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+                app:layout_constraintDimensionRatio="2:3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:url="@{url}" />
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/tvTrackName"
@@ -62,7 +66,8 @@
                 app:layout_constraintStart_toEndOf="@+id/ivSearchImage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                app:tv_transition_name="@{trackName}" />
 
             <TextView
                 android:id="@+id/tvGenre"
@@ -71,10 +76,11 @@
                 android:layout_marginTop="8dp"
                 android:text="@{genre}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toTopOf="@+id/tvPrice"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTrackName"
                 app:layout_constraintTop_toBottomOf="@+id/tvTrackName"
-                app:layout_constraintBottom_toTopOf="@+id/tvPrice"/>
+                app:tv_transition_name="@{trackId + ` genre`}" />
 
             <TextView
                 android:id="@+id/tvPrice"
@@ -86,17 +92,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/ivSearchImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTrackName"
-                app:layout_constraintTop_toBottomOf="@+id/tvGenre" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGenre"
+                app:tv_transition_name="@{trackId + ` price`}" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{description}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:layout_marginTop="16dp"
                 android:lineSpacingExtra="2dp"
                 android:lineSpacingMultiplier="1.5"
+                android:text="@{description}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

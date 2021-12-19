@@ -1,6 +1,7 @@
 package com.pnevalle.itunessearch.ui
 
 import androidx.recyclerview.widget.RecyclerView
+import com.pnevalle.itunessearch.common.getPriceDisplay
 import com.pnevalle.itunessearch.data.SearchResult
 import com.pnevalle.itunessearch.databinding.ItemSearchBinding
 import java.util.*
@@ -15,11 +16,13 @@ class SearchItemViewHolder(private val binding: ItemSearchBinding) :
      * Bind the search result data to UI
      */
     fun bind(searchResult: SearchResult) {
-        binding.trackName = searchResult.trackName
-        binding.genre = searchResult.primaryGenreName
-        binding.price = "${Currency.getInstance(searchResult.currency).symbol} ${searchResult.trackPrice}"
-        binding.url = searchResult.imageUrl
-
-        binding.executePendingBindings()
+        binding.apply {
+            trackId = searchResult.trackId
+            trackName = searchResult.trackName
+            genre = searchResult.primaryGenreName
+            price = getPriceDisplay(searchResult.currency, searchResult.trackPrice)
+            url = searchResult.imageUrl
+            executePendingBindings()
+        }
     }
 }
