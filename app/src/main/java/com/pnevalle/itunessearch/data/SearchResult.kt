@@ -1,5 +1,7 @@
 package com.pnevalle.itunessearch.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -12,8 +14,9 @@ import com.google.gson.annotations.SerializedName
  * @param primaryGenreName the primary genre of the track, song, video, TV episode, etc.
  * @param trackPrice the track price
  */
+@Entity(tableName = "search_result")
 data class SearchResult(
-    val trackId: Long,
+    @PrimaryKey val trackId: Long,
     val trackName: String,
     @SerializedName("artworkUrl100") val imageUrl: String,
     val longDescription: String,
