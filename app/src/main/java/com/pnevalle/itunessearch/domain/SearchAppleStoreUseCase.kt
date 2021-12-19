@@ -4,13 +4,14 @@ import com.pnevalle.itunessearch.common.DEFAULT_SEARCH_COUNTRY
 import com.pnevalle.itunessearch.common.DEFAULT_SEARCH_MEDIA
 import com.pnevalle.itunessearch.common.DEFAULT_SEARCH_TERM
 import com.pnevalle.itunessearch.data.SearchDataSource
+import javax.inject.Inject
 
 /**
  * The search apple store use case, which will execute the API call
  *
  * @param searchDataSource the data source implementation
  */
-class SearchAppleStoreUseCase(private val searchDataSource: SearchDataSource) {
+class SearchAppleStoreUseCase @Inject constructor(private val searchDataSource: SearchDataSource) {
 
     /**
      * Invoke method to execute the search API

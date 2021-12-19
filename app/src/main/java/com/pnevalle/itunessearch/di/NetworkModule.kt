@@ -2,7 +2,8 @@ package com.pnevalle.itunessearch.di
 
 import com.pnevalle.itunessearch.api.SearchService
 import com.pnevalle.itunessearch.common.BASE_URL
-import com.pnevalle.itunessearch.data.SearchRepository
+import com.pnevalle.itunessearch.data.SearchDataImpl
+import com.pnevalle.itunessearch.data.SearchDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,8 @@ class NetworkModule {
 
     /**
      * Provide the retrofit dependency
+     *
+     * @return the [Retrofit] instance
      */
     @Singleton
     @Provides
@@ -43,9 +46,24 @@ class NetworkModule {
 
     /**
      * Provide the search API service dependency
+     *
+     * @param retrofit the [Retrofit] instance to use in creating the API service
+     * @return the [SearchService]
      */
     @Singleton
     @Provides
     fun provideSearchService(retrofit: Retrofit): SearchService =
         retrofit.create(SearchService::class.java)
+
+    /**
+     * Provide the [SearchDataSource] dependency
+     *
+     * @param searchDataImpl the implementation class for [SearchDataSource]
+     * @return the [SearchDataSource]
+     */
+    @Singleton
+    @Provides
+    fun provideSearchDataSource(searchDataImpl: SearchDataImpl): SearchDataSource {
+        return searchDataImpl
+    }
 }
