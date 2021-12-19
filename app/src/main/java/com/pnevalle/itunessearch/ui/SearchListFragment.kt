@@ -46,7 +46,7 @@ class SearchListFragment : Fragment() {
     private fun initViews() {
         binding.apply {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            viewModel = viewModel
+            viewModel = this@SearchListFragment.viewModel
             lifecycleOwner = this@SearchListFragment
             recyclerView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
