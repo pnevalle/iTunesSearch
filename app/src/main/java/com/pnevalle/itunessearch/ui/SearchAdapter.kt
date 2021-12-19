@@ -1,5 +1,6 @@
 package com.pnevalle.itunessearch.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,15 +11,14 @@ import com.pnevalle.itunessearch.databinding.ItemSearchHeadingBinding
 /**
  * The adapter class for [SearchListFragment]
  *
- * @param lastNetworkCall the last network call in millis
  * @param clickListener the item click listener
  */
 class SearchAdapter(
-    private val lastNetworkCall: Long,
     private val clickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var searchResultList: List<SearchResult> = listOf()
+    private var lastNetworkCall: Long? = null
 
     companion object {
         const val HEADER_TYPE = 100
@@ -48,7 +48,7 @@ class SearchAdapter(
             }
 
             is SearchHeaderViewHolder -> {
-                holder.bind(lastNetworkCall)
+                holder.bind(lastNetworkCall ?: System.currentTimeMillis())
             }
         }
     }
@@ -72,7 +72,21 @@ class SearchAdapter(
      *
      * @param searchResultList the list of [SearchResult]
      */
+    @SuppressLint("NotifyDataSetChanged")
     fun setDataList(searchResultList: List<SearchResult>) {
         this.searchResultList = searchResultList.toList()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Set the last network call and notify item change
+     *
+     * @param lastNetworkCall the last network call in millis
+     */
+    fun setLastNetworkCall(lastNetworkCall: Long?) {
+        this.lastNetworkCall = lastNetworkCall
+        if (searchResultList.isNotEmpty()) {
+            notifyItemChanged(0)
+        }
     }
 }

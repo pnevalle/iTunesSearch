@@ -25,21 +25,43 @@ class SearchViewModel @Inject constructor(private val searchInteractors: SearchI
 
     val lastNetworkCall: LiveData<Long> = searchInteractors.getLastNetworkCallUseCase().asLiveData()
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    /**
+     * Will check the database for search results. If null, will execute [apiSearch]
+     */
+    fun checkCacheOrSearch() {
+        viewModelScope.launch {
+            searchInteractors.getAllSearchResultCacheUseCase().collect { cache ->
+                if (cache.isEmpty()) {
+                    apiSearch()
+                } else {
+                    _searchResultList.value = cache
+                }
+            }
+        }
+    }
+
     /**
      * Retrieve the search results from iTunes search API
      */
-    fun search() {
+    fun apiSearch() {
+        _isLoading.value = true
         viewModelScope.launch {
             searchInteractors.searchAppleStoreUseCase().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        _searchResultList.value = result.value.results
+                        val searchResultList = result.value.results
+                        _searchResultList.value = searchResultList
+                        searchInteractors.insertSearchResultCacheUseCase(searchResultList)
                     }
 
                     is Result.Error -> {
                         _errorMessage.value = Event(result.errorMessage)
                     }
                 }
+                _isLoading.value = false
             }
         }
     }

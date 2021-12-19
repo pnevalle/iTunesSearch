@@ -31,6 +31,7 @@ class SearchListFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }
@@ -39,32 +40,40 @@ class SearchListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initLiveDataObserver()
 
-        viewModel.search()
+        viewModel.checkCacheOrSearch()
     }
 
     /**
      * Initialize live data observer
      */
     private fun initLiveDataObserver() {
+        viewModel.lastNetworkCall.observe(viewLifecycleOwner) {
+            getAdapter().setLastNetworkCall(it)
+        }
+
         viewModel.searchResultList.observe(viewLifecycleOwner) { searchResults ->
-            binding.swipeRefreshLayout.isRefreshing = false
-            if (binding.recyclerView.adapter == null) {
-                binding.recyclerView.adapter =
-                    SearchAdapter(viewModel.lastNetworkCall.value ?: System.currentTimeMillis()) {
-                        val direction =
-                            SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(
-                                it.trackId)
-                        findNavController().navigate(direction)
-                    }
-            }
-            (binding.recyclerView.adapter as SearchAdapter).setDataList(searchResults)
+            getAdapter().setDataList(searchResults)
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorEvent ->
-            binding.swipeRefreshLayout.isRefreshing = false
             errorEvent.getContentIfNotHandled()?.let { errorMessage ->
                 showSnack(errorMessage)
             }
+        }
+    }
+
+    private fun getAdapter(): SearchAdapter {
+        return if (binding.recyclerView.adapter == null) {
+            val adapter = SearchAdapter {
+                val direction =
+                    SearchListFragmentDirections.actionSearchListFragmentToSearchDetailFragment(
+                        it.trackId)
+                findNavController().navigate(direction)
+            }
+            binding.recyclerView.adapter = adapter
+            adapter
+        } else {
+            binding.recyclerView.adapter as SearchAdapter
         }
     }
 
