@@ -20,5 +20,5 @@ interface SearchDataSource {
     /**
      * Method to implement for retrieving the last search time stamp
      */
-    fun getLastSearchTimeStamp(): Flow<Long>
+    fun getLastSearchTimeStamp(): Flow<Long?>
 }

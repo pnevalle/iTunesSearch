@@ -56,7 +56,7 @@ class SearchAdapter(
             }
 
             is SearchHeaderViewHolder -> {
-                holder.bind(lastNetworkCall ?: System.currentTimeMillis())
+                holder.bind(lastNetworkCall)
             }
         }
     }

@@ -27,7 +27,7 @@ class LastNetworkCallDataStore @Inject constructor(@ApplicationContext private v
         private val LAST_NETWORK_CALL_KEY = longPreferencesKey("last_network_call_key")
     }
 
-    val lastNetworkCallFlow: Flow<Long> = context.dataStore.data
+    val lastNetworkCallFlow: Flow<Long?> = context.dataStore.data
         .catch { throwable ->
             if (throwable is IOException) {
                 emit(emptyPreferences())
@@ -36,7 +36,7 @@ class LastNetworkCallDataStore @Inject constructor(@ApplicationContext private v
             }
         }
         .map { preference ->
-            preference[LAST_NETWORK_CALL_KEY] ?: 0
+            preference[LAST_NETWORK_CALL_KEY]
         }
 
     /**

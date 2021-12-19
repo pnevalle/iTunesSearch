@@ -23,7 +23,7 @@ class SearchViewModel @Inject constructor(private val searchInteractors: SearchI
     private val _errorMessage = MutableLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>> = _errorMessage
 
-    val lastNetworkCall: LiveData<Long> = searchInteractors.getLastNetworkCallUseCase().asLiveData()
+    val lastNetworkCall: LiveData<Long?> = searchInteractors.getLastNetworkCallUseCase().asLiveData()
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

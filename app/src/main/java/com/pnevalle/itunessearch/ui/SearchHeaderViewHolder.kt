@@ -21,14 +21,18 @@ class SearchHeaderViewHolder(private val binding: ItemSearchHeadingBinding) :
      *
      * @param timestamp the last network call timestamp
      */
-    fun bind(timestamp: Long) {
-        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            itemView.resources.configuration.locales[0]
+    fun bind(timestamp: Long?) {
+        val heading: String = if (timestamp == null) {
+            "N/A"
         } else {
-            itemView.resources.configuration.locale
+            val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                itemView.resources.configuration.locales[0]
+            } else {
+                itemView.resources.configuration.locale
+            }
+            val displayDateFormat = SimpleDateFormat(DATE_FORMAT, locale)
+            displayDateFormat.format(Date(timestamp))
         }
-        val displayDateFormat = SimpleDateFormat(DATE_FORMAT, locale)
-        val heading = displayDateFormat.format(Date(timestamp))
 
         binding.heading = heading
 
