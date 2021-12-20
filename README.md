@@ -22,6 +22,7 @@ Upon making the project, here are some of the components that are explored and u
 4. [DataStore](https://developer.android.com/topic/libraries/architecture/datastore?hl=en) - data storage used to store key-value pairs
 5. [Flow](https://developer.android.com/reference/kotlin/java/util/concurrent/Flow?hl=en) - kotlin coroutine to handle the stream of data asynchronously 
 6. [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation?hl=en) - framework for navigating between 'destinations' within an Android application
+7. [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - dependency injection library for Android
 
 # Credits
 1. https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
